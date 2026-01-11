@@ -240,27 +240,73 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
 
-            $('.mobile-main-slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: true,
-                fade: true,
-                asNavFor: '.mobile-thumb-slider',
-                prevArrow: '<button type="button" class="slick-prev mobile-arrow-prev"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845"></button>',
-                nextArrow: '<button type="button" class="slick-next mobile-arrow-next"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845"></button>'
+            // ==========================================
+            // AUTO-GENERATE MOBILE GALLERY
+            // ==========================================
+            // 1. Extract Images from Desktop Gallery
+            // Filter out badges/icons (leaves, nysale) to get only product images
+            var desktopImages = [];
+            $('.Desktop_only img').each(function () {
+                var src = $(this).attr('src');
+                if (src && !src.includes('leaves') && !src.includes('nysale') && !src.includes('sale-badge')) {
+                    // Check if not already added (to avoid duplicates if any)
+                    if (desktopImages.indexOf(src) === -1) desktopImages.push(src);
+                }
             });
 
+            // 2. Build HTML
+            if (desktopImages.length > 0) {
+                var mainSlides = '<div class="mobile-main-slider mb-4">';
+                var thumbSlides = '<div class="mobile-thumb-slider px-1">';
 
-            $('.mobile-thumb-slider').slick({
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                asNavFor: '.mobile-main-slider',
-                dots: false,
-                arrows: false,
-                focusOnSelect: true,
-                infinite: true,
-                centerMode: false
-            });
+                $.each(desktopImages, function (index, src) {
+                    // Add Badges to the First Slide Only
+                    var extras = '';
+                    if (index === 0) {
+                        extras = `
+                        <img class="absolute top-4 right-4 w-20 z-10" src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/nysale.png?v=1766822224" alt="Sale">
+                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-[2] flex justify-center gap-2 items-center px-4 py-1.5 bg-[#ffffffd9] border border-black rounded-full cursor-pointer text-xs w-max max-w-[90%] shadow-sm">
+                            <img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/leaves_1247958_1_cf2e7df4-c113-4c3a-be49-f876ec94d873.png?v=1766822629" class="w-4 h-4">
+                            <span class="font-medium">Nutritional Information</span>
+                        </div>`;
+                    }
+
+                    mainSlides += '<div class="relative outline-none"><img src="' + src + '" class="w-full rounded-2xl">' + extras + '</div>';
+                    thumbSlides += '<div class="px-1 outline-none"><img src="' + src + '" class="w-full rounded-lg cursor-pointer border-2 border-transparent transition-all"></div>';
+                });
+
+                mainSlides += '</div>';
+                thumbSlides += '</div>';
+
+                // 3. Inject into DOM
+                $('#mobile-gallery-container').html(mainSlides + thumbSlides);
+
+                // 4. Initialize Slick
+                // Migrated Arrow Styles to Tailwind:
+                // .mobile-main-slider .slick-arrow -> absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md cursor-pointer border-none
+                const arrowClasses = "absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/90 rounded-full flex !items-center !justify-center shadow-md cursor-pointer border-none outline-none hover:bg-white transition-colors";
+
+                $('.mobile-main-slider').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    fade: true,
+                    asNavFor: '.mobile-thumb-slider',
+                    prevArrow: `<button type="button" class="slick-prev mobile-arrow-prev ${arrowClasses} left-4"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845" class="w-3.5 h-3.5 opacity-80 block"></button>`,
+                    nextArrow: `<button type="button" class="slick-next mobile-arrow-next ${arrowClasses} right-4"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845" class="w-3.5 h-3.5 opacity-80 block rotate-180"></button>`
+                });
+
+                $('.mobile-thumb-slider').slick({
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    asNavFor: '.mobile-main-slider',
+                    dots: false,
+                    arrows: false,
+                    focusOnSelect: true,
+                    infinite: true,
+                    centerMode: false
+                });
+            }
 
             $('.product_carousel-prev').on('click', function () {
                 $('.video-slider').slick('slickPrev');
