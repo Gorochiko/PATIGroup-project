@@ -248,4 +248,37 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+    // Video Play/Pause: Click to play videos in carousel
+    const videoSlides = document.querySelectorAll('.video-slide');
+    videoSlides.forEach(slide => {
+        const video = slide.querySelector('video');
+        const playButton = slide.querySelector('img[alt="Play"]');
+        const overlay = playButton?.parentElement;
+
+        if (video && overlay) {
+            slide.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (video.paused) {
+                    video.play();
+                    overlay.style.display = 'none';
+                    videoSlides.forEach(otherSlide => {
+                        const otherVideo = otherSlide.querySelector('video');
+                        const otherOverlay = otherSlide.querySelector('img[alt="Play"]')?.parentElement;
+                        if (otherVideo && otherVideo !== video && !otherVideo.paused) {
+                            otherVideo.pause();
+                            if (otherOverlay) otherOverlay.style.display = 'flex';
+                        }
+                    });
+                } else {
+                    video.pause();
+                    overlay.style.display = 'flex';
+                }
+            });
+            video.addEventListener('ended', function () {
+                overlay.style.display = 'flex';
+            });
+        }
+    });
 });
