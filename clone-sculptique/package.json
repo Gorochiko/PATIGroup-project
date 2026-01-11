@@ -1,0 +1,21 @@
+{
+    "name": "sculptique-clone",
+    "version": "1.0.0",
+    "description": "Pixel-perfect clone of Sculptique product page",
+    "scripts": {
+        "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+        "web": "npx http-server -p 8080 -o /index.html",
+        "start": "npx concurrently \"npm run dev\" \"npm run web\"",
+        "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+    },
+    "keywords": [
+        "tailwind",
+        "sculptique",
+        "clone"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "tailwindcss": "^3.4.1"
+    }
+}

@@ -1,0 +1,112 @@
+/* Ingredients Grid System */
+.ingredients-grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    border: 1px solid #e5e7eb;
+    background-color: white;
+}
+
+@media (min-width: 768px) {
+    .ingredients-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .ingredients-grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.ingredient-item {
+    padding: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease;
+}
+
+.ingredient-item:hover {
+    background-color: #fafbfb;
+}
+
+/* Remove right border for last item in row on desktop */
+@media (min-width: 1024px) {
+    .ingredient-item:nth-child(4n) {
+        border-right: none;
+    }
+
+    .ingredient-item:nth-last-child(-n+4) {
+        border-bottom: none;
+    }
+}
+
+/* Review Section Styling */
+.review-card {
+    background: white;
+    border: 1px solid #f3f4f6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    color: #1a1a1a !important;
+    /* Force dark text for readability */
+}
+
+.review-text {
+    color: #374151;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.review-author {
+    font-weight: 700;
+    color: #111827;
+}
+
+.verified-badge {
+    color: #008a6a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Section Backgrounds */
+.bg-sculptique-beige {
+    background-color: #f7f4ed;
+}
+
+/* Typography refinements */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Lora', serif;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Product Feature Lines (Benefits) - from original site */
+.main_product-feature-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.main_product-feature-line img {
+    width: auto;
+    height: auto;
+    max-width: 24px;
+}
+
+.main_product-feature-line p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    letter-spacing: 0.06rem;
+    color: rgba(0, 0, 0, 0.75);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    margin: 0;
+}
