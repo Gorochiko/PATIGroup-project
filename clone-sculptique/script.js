@@ -239,6 +239,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 ]
             });
 
+
+            $('.mobile-main-slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                fade: true,
+                asNavFor: '.mobile-thumb-slider',
+                prevArrow: '<button type="button" class="slick-prev mobile-arrow-prev"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845"></button>',
+                nextArrow: '<button type="button" class="slick-next mobile-arrow-next"><img src="https://cdn.shopify.com/s/files/1/0917/5649/5191/files/iconamoon_arrow-up-2-thin_55aa38bb-cb5e-4608-9097-927814968771.png?v=1758716845"></button>'
+            });
+
+
+            $('.mobile-thumb-slider').slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                asNavFor: '.mobile-main-slider',
+                dots: false,
+                arrows: false,
+                focusOnSelect: true,
+                infinite: true,
+                centerMode: false
+            });
+
             $('.product_carousel-prev').on('click', function () {
                 $('.video-slider').slick('slickPrev');
             });
